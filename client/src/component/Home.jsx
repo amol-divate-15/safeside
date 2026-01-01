@@ -10,7 +10,7 @@ import cy6 from '../assets/cy6.png'
 import { useState } from 'react';
 import RegisterModal from './RegisterModal';
 import LoginModal from './loginModel';
-import AdminLoginModal from "../admin/AdminLoginModal";
+
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -37,7 +37,7 @@ export default function Home() {
           <button onClick={()=>navigate("/about-system")} className="nav-btn">About</button>
           <button onClick={() => setOpen(true)} className="nav-btn">Register</button>
           <button onClick={() => setLoginOpen(true)} className="nav-btn">Login</button>
-          <button onClick={() => setAdminOpen(true)} className="nav-btn bg-red-600 text-white">Admin</button>
+          
         </div>
       </nav>
 
@@ -63,7 +63,7 @@ export default function Home() {
       {/* Modals */}
       <RegisterModal isOpen={open} onClose={() => setOpen(false)} openLogin={() => setLoginOpen(true)}/>
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} onLoginSuccess={(name)=>{setUserName(name);setShowDashboard(true)}}/>
-      <AdminLoginModal isOpen={adminOpen} onClose={() => setAdminOpen(false)} onAdminSuccess={() => navigate("/admin")}/>
+     
     </div>
   )
 }
