@@ -19,6 +19,8 @@ export default function App() {
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/about-system" element={<AboutSystem/>}/>
+      
+      
     </Routes>
    
     </div>

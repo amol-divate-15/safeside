@@ -10,84 +10,79 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
   const [login, setLogin] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-
   const handleChange = (e) => {
-  setLogin({ ...login, [e.target.name]: e.target.value });
-};
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  };
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post("http://localhost:5000/api/user/login", login);
-    localStorage.setItem("loggedUser", JSON.stringify(res.data.user));
-onLoginSuccess(res.data.user.name);
-   // send name to Home
-    onClose(); 
-    navigate("/dashboard", {
-  state: { userName: res.data.user.name }
-});
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/api/user/login", data);
 
-    alert("Welcome " + res.data.user.name);
-    console.log(res.data);
-  } catch (err) {
-    alert(err.response?.data?.message || "Login Failed");
-  }
-};
+localStorage.setItem("loggedUser", JSON.stringify(res.data.user));
+localStorage.setItem("role", res.data.role);
+
+navigate("/user-dashboard");
+
+      onClose(); 
+      navigate("/dashboard", { state: { userName: res.data.user.name } });
+      alert("Welcome " + res.data.user.name);
+    } catch (err) {
+      alert(err.response?.data?.message || "Login Failed");
+    }
+  };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50">
 
-      <div className="bg-white w-[1000px] h-[900px] rounded-2xl shadow-2xl p-6 relative">
+      <div className="bg-white w-[420px] rounded-3xl shadow-2xl overflow-hidden relative">
 
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-red-600 text-xl font-bold"
-        >
-          ✕
-        </button>
-
-        <h2 className="text-2xl text-blue-600 font-bold text-center mb-4">
-          Login User
-        </h2>
-
-        <div className="flex-1 flex flex-col items-center justify-start text-white text-2xl gap-6 pt-16">
-          <img src={logo} alt="logo" className="w-40 h-40 rounded-full" />
-          <h1 className="text-blue-500 text-3xl font-bold">
-            Cylinder Tracking
-          </h1>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center font-bold text-xl">
+          Welcome Back 👋
         </div>
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-3">
+        {/* Close */}
+        <button onClick={onClose} className="absolute top-3 right-4 text-white text-xl">✕</button>
 
-          {/* Email */}
-          <input
-            onChange={handleChange}
-            name="email"
-            placeholder="Email"
-            className="border p-2 rounded-full w-[400px] outline-blue-400 mt-9 ml-70"
-          />
+        <div className="p-6">
 
-          {/* Password */}
-          <input
-            onChange={handleChange}
-            name="password"
-            placeholder="Password"
-            className="border p-2 rounded-full w-[400px] outline-blue-400 mt-9 ml-70"
-          />
+          <div className="flex flex-col items-center mb-6">
+            <img src={logo} className="w-20 h-20 rounded-full shadow mb-2"/>
+            <h2 className="text-blue-700 font-bold">Cylinder Tracking</h2>
+            <p className="text-gray-400 text-sm">Login to your account</p>
+          </div>
 
-          <button type="submit" className="bg-red-600 h-[100px] w-[300px] hover:bg-red-700 text-blue-300 font-bold py-2 rounded-full mt-3 ml-80">
-            Login
+          <form onSubmit={handleLogin} className="space-y-4">
+
+            <input
+              onChange={handleChange}
+              name="email"
+              placeholder="Email"
+              className="input-modern"
+            />
+
+            <input
+              onChange={handleChange}
+              name="password"
+              placeholder="Password"
+              type="password"
+              className="input-modern"
+            />
+
+            <button type="submit"
+              className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl font-semibold hover:scale-[1.03] transition">
+              Login
+            </button>
+          </form>
+
+          <button
+            onClick={() => navigate("/update-password")}
+            className="text-sm text-center w-full mt-4 text-blue-600 hover:underline"
+          >
+            Forgot Password?
           </button>
-          
-
-        </form>
-        <button
-  onClick={() => navigate("/update-password")}
-  className="bg-red-500 text-white px-4 py-2 rounded-full mt-4">
-  Forgot Password
-</button>
-
+        </div>
       </div>
     </div>
   );

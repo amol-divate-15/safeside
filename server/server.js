@@ -9,11 +9,7 @@ import cylinderRoute from "./routes/cylinderRoutes.js";
 import driverRoute from "./routes/driverRoutes.js";
 import reportRoute from "./routes/reportRoutes.js";
 
-
-
 import historyRoutes from "./routes/historyRoutes.js";
-
-
 
 
 dotenv.config();
@@ -32,7 +28,6 @@ app.use("/api/drivers", driverRoute);
 app.use("/api/reports", reportRoute);
 
 app.use("/api/history", historyRoutes);
-
 
 
 mongoose

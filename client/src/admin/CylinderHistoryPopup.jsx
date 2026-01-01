@@ -1,40 +1,53 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function CylinderHistoryPopup({close}) {
-  const [list,setList] = useState([]);
+export default function CylinderHistoryPopup({ close }) {
+  const [list, setList] = useState([]);
 
-  useEffect(()=>{
-    axios.get("http://localhost:5000/api/history").then(r=>setList(r.data));
-  },[]);
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/history").then(r => setList(r.data));
+  }, []);
 
-  return(
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center">
-      <div className="bg-white w-[900px] h-[90vh] p-6 overflow-auto rounded-xl">
-        <h2 className="text-2xl font-bold mb-4">Cylinder Movement History</h2>
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white w-[95%] max-w-6xl h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
 
-        <table className="w-full border">
-          <thead className="bg-gray-200">
-            <tr>
-              <th>Cylinder</th><th>From</th><th>To</th><th>Driver</th><th>Action</th><th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.map(h=>(
-              <tr key={h._id}>
-                <td>{h.cylinderId}</td>
-                <td>{h.fromOwner}</td>
-                <td>{h.toOwner}</td>
-                <td>{h.driverName}</td>
-                <td>{h.action}</td>
-                <td>{new Date(h.date).toLocaleString()}</td>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white p-5 flex justify-between items-center">
+          <h2 className="text-xl font-bold">Cylinder Movement History</h2>
+          <button onClick={close} className="text-2xl font-bold hover:scale-110">✕</button>
+        </div>
+
+        {/* Table */}
+        <div className="flex-1 overflow-auto p-5">
+          <table className="w-full border-collapse text-sm">
+            <thead className="bg-red-50 text-red-600 sticky top-0">
+              <tr>
+                <th className="p-3 text-left">Cylinder</th>
+                <th className="p-3 text-left">From</th>
+                <th className="p-3 text-left">To</th>
+                <th className="p-3 text-left">Driver</th>
+                <th className="p-3 text-left">Action</th>
+                <th className="p-3 text-left">Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
 
-        <button onClick={close} className="mt-4 text-red-600">Close</button>
+            <tbody>
+              {list.map(h => (
+                <tr key={h._id} className="border-b hover:bg-red-50 transition">
+                  <td className="p-3 font-semibold">{h.cylinderId}</td>
+                  <td className="p-3">{h.fromOwner}</td>
+                  <td className="p-3">{h.toOwner}</td>
+                  <td className="p-3">{h.driverName}</td>
+                  <td className="p-3 text-blue-600 font-semibold">{h.action}</td>
+                  <td className="p-3 text-gray-600">{new Date(h.date).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
-  )
+  );
 }

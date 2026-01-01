@@ -15,5 +15,10 @@ export const adminLogin = async (req, res) => {
   const admin = await Admin.findOne({ username, password });
   if (!admin) return res.status(401).json({ message: "Invalid Admin Login" });
 
-  res.status(200).json({ message: "Admin Login Success" });
+  res.json({
+    message: "Admin Login Success",
+    role: admin.role,
+    admin
+  });
 };
+

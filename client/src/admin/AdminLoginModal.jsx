@@ -13,28 +13,62 @@ export default function AdminLoginModal({ isOpen, onClose, onAdminSuccess }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/admin/login", admin);
-      alert("Admin Login Successful");
-      onAdminSuccess();
-      onClose();
+     const res = await axios.post("http://localhost:5000/api/admin/login", admin);
+
+localStorage.setItem("role", res.data.role);
+
+navigate("/admin-dashboard");
+
     } catch (err) {
       alert("Invalid Admin Credentials");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[500px] rounded-2xl p-6">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
 
-        <h2 className="text-red-600 text-2xl font-bold text-center mb-4">Admin Login</h2>
+      <div className="bg-white w-[420px] rounded-3xl shadow-2xl overflow-hidden">
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <input name="username" placeholder="Admin Username" onChange={handleChange} className="border p-2 rounded"/>
-          <input name="password" placeholder="Admin Password" onChange={handleChange} className="border p-2 rounded"/>
-          <button className="bg-red-600 text-white py-2 rounded">Login</button>
-        </form>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-center py-5 font-bold text-xl">
+          Admin Control Panel
+        </div>
 
-        <button onClick={onClose} className="mt-3 text-red-500 w-full">Close</button>
+        {/* Body */}
+        <div className="p-6 space-y-5">
+
+          <div className="text-center text-gray-500 text-sm">
+            Login to manage cylinders & deliveries
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+
+            <input
+              name="username"
+              onChange={handleChange}
+              placeholder="Admin Username"
+              className="w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-red-400"
+            />
+
+            <input
+              name="password"
+              type="password"
+              onChange={handleChange}
+              placeholder="Admin Password"
+              className="w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-red-400"
+            />
+
+            <button className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl font-bold hover:scale-[1.02] transition">
+              Secure Login
+            </button>
+
+          </form>
+
+          <button onClick={onClose} className="w-full text-sm text-gray-500 hover:underline">
+            Cancel
+          </button>
+
+        </div>
       </div>
     </div>
   );

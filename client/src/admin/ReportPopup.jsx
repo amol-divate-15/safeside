@@ -2,39 +2,61 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function ReportPopup({ close }) {
-  const [data,setData] = useState(null);
+  const [data, setData] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     axios.get("http://localhost:5000/api/reports")
-    .then(res=>setData(res.data));
-  },[]);
+      .then(res => setData(res.data));
+  }, []);
 
-  if(!data) return null;
+  if (!data) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-[999]">
-      <div className="bg-white w-[900px] h-[90vh] p-6 rounded-xl overflow-auto">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[999]">
+      <div className="bg-white w-[95%] max-w-6xl h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
 
-        <h2 className="text-2xl font-bold mb-4">Admin Reports</h2>
-
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div className="border p-4 rounded">Total Cylinders<br/><b>{data.totalCylinders}</b></div>
-          <div className="border p-4 rounded">Delivered Today<br/><b>{data.deliveredToday}</b></div>
-          <div className="border p-4 rounded">Pending Deliveries<br/><b>{data.pending}</b></div>
-          <div className="border p-4 rounded">Damaged Cylinders<br/><b>{data.damaged}</b></div>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white p-5 flex justify-between items-center">
+          <h2 className="text-xl font-bold">Admin Performance Reports</h2>
+          <button onClick={close} className="text-2xl font-bold hover:scale-110">✕</button>
         </div>
 
-        <h3 className="mt-6 font-bold">Customer Wise Usage</h3>
-        {data.customerUsage.map((c,i)=>(
-          <div key={i} className="border p-2">{c._id || "Unknown"} → {c.total}</div>
-        ))}
+        {/* Body */}
+        <div className="flex-1 overflow-auto p-6 space-y-8">
 
-        <h3 className="mt-6 font-bold">Driver Performance</h3>
-        {data.driverPerformance.map((d,i)=>(
-          <div key={i} className="border p-2">{d._id || "Unknown"} → {d.deliveries} Deliveries</div>
-        ))}
+          {/* KPI Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="stat-card">Total Cylinders<br /><b>{data.totalCylinders}</b></div>
+            <div className="stat-card">Delivered Today<br /><b>{data.deliveredToday}</b></div>
+            <div className="stat-card">Pending Deliveries<br /><b>{data.pending}</b></div>
+            <div className="stat-card">Damaged Cylinders<br /><b>{data.damaged}</b></div>
+          </div>
 
-        <button onClick={close} className="mt-4 text-red-600">Close</button>
+          {/* Customer Usage */}
+          <div>
+            <h3 className="section-title">Customer Wise Usage</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {data.customerUsage.map((c, i) => (
+                <div key={i} className="report-row">
+                  {c._id || "Unknown"} <span className="font-bold text-blue-700">{c.total}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Driver Performance */}
+          <div>
+            <h3 className="section-title">Driver Performance</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {data.driverPerformance.map((d, i) => (
+                <div key={i} className="report-row">
+                  {d._id || "Unknown"} <span className="font-bold text-green-700">{d.deliveries} Deliveries</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );

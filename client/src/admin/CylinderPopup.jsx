@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 export default function CylinderPopup({ close }) {
 
   const [form, setForm] = useState({
-  cylinderId:"", qrCode:"", gasType:"", category:"", capacity:"",
-  status:"", currentLocation:"", owner:""
-});
+    cylinderId:"", qrCode:"", gasType:"", category:"", capacity:"",
+    status:"", currentLocation:"", owner:""
+  });
 
   const [list, setList] = useState([]);
 
@@ -17,14 +17,10 @@ export default function CylinderPopup({ close }) {
   }
 
   const save = async () => {
-  if(!form.category){
-    alert("Select category");
-    return;
+    if(!form.category){ alert("Select category"); return; }
+    await axios.post("http://localhost:5000/api/cylinders/add", form);
+    load();
   }
-  await axios.post("http://localhost:5000/api/cylinders/add", form);
-  load();
-}
-
 
   const del = async (id)=>{
     await axios.delete("http://localhost:5000/api/cylinders/"+id);
@@ -32,68 +28,99 @@ export default function CylinderPopup({ close }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center">
-      <div className="bg-white w-[900px] p-6 rounded-xl overflow-auto h-[90vh]">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
 
-        <h2 className="text-2xl font-bold mb-4">Cylinder Module</h2>
-        <select
-  onChange={e=>setForm({...form, category:e.target.value})}
-  className="border p-2 mb-3"
->
-  <option value="">Select Category</option>
-  <option value="Domestic">Domestic</option>
-  <option value="Commercial">Commercial</option>
-  <option value="Medical">Medical</option>
-  <option value="Industrial">Industrial</option>
-</select>
+      <div className="bg-white w-[1100px] h-[90vh] rounded-3xl shadow-2xl overflow-hidden">
 
-        <div className="grid grid-cols-3 gap-3">
+        {/* Header */}
+        <div className="relative bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center text-xl font-bold">
+          Cylinder Management
+
+          {/* ❌ Close Button */}
+          <button
+            onClick={close}
+            className="absolute right-5 top-3 text-2xl hover:scale-110 transition"
+          >
+            ✖
+          </button>
+        </div>
+
+        {/* Form */}
+        <div className="p-6 grid grid-cols-4 gap-4">
+          <select
+            onChange={e=>setForm({...form, category:e.target.value})}
+            className="col-span-4 p-3 border rounded-xl"
+          >
+            <option value="">Select Category</option>
+            <option value="Domestic">Domestic</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Medical">Medical</option>
+            <option value="Industrial">Industrial</option>
+          </select>
+
           {Object.keys(form).map(key=>(
-            <input key={key}
+            <input
+              key={key}
               placeholder={key}
-              className="border p-2"
-              onChange={e=>setForm({...form,[key]:e.target.value})}/>
+              className="p-3 border rounded-xl"
+              onChange={e=>setForm({...form,[key]:e.target.value})}
+            />
           ))}
         </div>
 
-        <button onClick={save} className="bg-red-600 text-white px-6 py-2 mt-4 rounded">Add Cylinder</button>
+        <div className="px-6">
+          <button onClick={save}
+            className="bg-gradient-to-r from-red-600 to-orange-500 text-white px-10 py-3 rounded-xl hover:scale-[1.03] transition">
+            Add Cylinder
+          </button>
+        </div>
 
-        <table className="w-full mt-6 border">
-  <thead className="bg-gray-200">
-    <tr>
-      <th>ID</th>
-      <th>QR</th>
-      <th>Gas</th>
-      <th>Category</th>
-      <th>Capacity</th>
-      <th>Status</th>
-      <th>Location</th>
-      <th>Owner</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+        {/* Table */}
+        <div className="p-6 overflow-auto h-[55vh]">
+          <table className="w-full text-sm">
+            <thead className="sticky top-0 bg-red-50 text-red-700">
+              <tr>
+                <th className="p-3 text-left">ID</th>
+                <th className="p-3">QR</th>
+                <th className="p-3">Gas</th>
+                <th className="p-3">Category</th>
+                <th className="p-3">Capacity</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Location</th>
+                <th className="p-3">Owner</th>
+                <th className="p-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.map(c=>(
+                <tr key={c._id} className="border-b hover:bg-red-50 transition">
+                  <td className="p-3">{c.cylinderId}</td>
+                  <td className="p-3">{c.qrCode}</td>
+                  <td className="p-3">{c.gasType}</td>
+                  <td className="p-3 font-bold text-red-600">{c.category}</td>
+                  <td className="p-3">{c.capacity}</td>
+                  <td className="p-3">{c.status}</td>
+                  <td className="p-3">{c.currentLocation}</td>
+                  <td className="p-3">{c.owner}</td>
+                  <td className="p-3">
+                    <button onClick={()=>del(c._id)} className="text-red-600 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-  <tbody>
-    {list.map(c=>(
-      <tr key={c._id}>
-        <td>{c.cylinderId}</td>
-        <td>{c.qrCode}</td>
-        <td>{c.gasType}</td>
-        <td className="font-bold text-blue-700">{c.category}</td>
-        <td>{c.capacity}</td>
-        <td>{c.status}</td>
-        <td>{c.currentLocation}</td>
-        <td>{c.owner}</td>
-        <td>
-          <button onClick={()=>del(c._id)} className="text-red-600">Delete</button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+        {/* Footer */}
+        <div className="p-4 text-center border-t">
+          <button onClick={close}
+            className="bg-red-600 hover:bg-red-700 text-white px-10 py-2 rounded-xl">
+            Close
+          </button>
+        </div>
 
-
-        <button onClick={close} className="mt-4 bg-red-600 h-[40px] w-[90px] text-white px-6 py-2 mt-4 rounded">Close</button>
       </div>
     </div>
   )

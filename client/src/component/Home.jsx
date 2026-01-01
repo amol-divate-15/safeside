@@ -1,5 +1,4 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
 import logo from "../assets/logo.gif";
 import Card from './Card';
 import cy1 from '../assets/cy1.png'
@@ -11,101 +10,60 @@ import cy6 from '../assets/cy6.png'
 import { useState } from 'react';
 import RegisterModal from './RegisterModal';
 import LoginModal from './loginModel';
-import Dashboard from "./Dashboard";
-import AdminHome from '../admin/AdminHome';
 import AdminLoginModal from "../admin/AdminLoginModal";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function Home() {
-    const [open, setOpen] = useState(false);
-    const [loginOpen, setLoginOpen] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [showDashboard, setShowDashboard] = useState(false);
-    const [adminOpen, setAdminOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
   return (
-    <div className="w-screen h-screen flex bg-white-500">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-100">
 
-  <div className="w-[150px] h-screen bg-red-600 rounded-t-full rounded-b-none 
-                fixed left-0 top-0 flex flex-col items-center justify-center gap-6 text-white font-semibold z-50">
+      {/* TOP NAV */}
+      <nav className="fixed top-0 w-full bg-white shadow-md flex justify-between items-center px-10 py-4 z-50">
+        <div className="flex items-center gap-3">
+          <img src={logo} className="w-10 h-10 rounded-full"/>
+          <span className="font-bold text-blue-700 text-lg">CylinderTrack</span>
+        </div>
 
+        <div className="flex gap-4">
+          <button className="nav-btn">Home</button>
+          <button onClick={()=>navigate("/about-system")} className="nav-btn">About</button>
+          <button onClick={() => setOpen(true)} className="nav-btn">Register</button>
+          <button onClick={() => setLoginOpen(true)} className="nav-btn">Login</button>
+          <button onClick={() => setAdminOpen(true)} className="nav-btn bg-red-600 text-white">Admin</button>
+        </div>
+      </nav>
 
-  <button className="hover:bg-red-800 w-full text-center py-2 rounded-md transition">
-    Home
-  </button>
+      {/* HERO */}
+      <div className="pt-32 text-center">
+        <img src={logo} className="w-28 mx-auto mb-4 rounded-full shadow"/>
+        <h1 className="text-4xl font-bold text-blue-700">Cylinder Tracking</h1>
+        <p className="max-w-xl mx-auto mt-3 text-gray-600">
+          Optimize Cylinder Tracking, Minimize Losses
+        </p>
+      </div>
 
-  <button onClick={()=>navigate("/about-system")} className="hover:bg-red-800 w-full text-center py-2 rounded-md transition">
-  About
-</button>
+      {/* FEATURES */}
+      <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto p-10">
+        <Card img={cy1} title="Efficient Issue Resolution"/>
+        <Card img={cy2} title="Improved Customer Satisfaction"/>
+        <Card img={cy3} title="Accurate Compensation Management"/>
+        <Card img={cy4} title="Integration for Efficiency"/>
+        <Card img={cy5} title="Real-time Tracking"/>
+        <Card img={cy6} title="Loss Prevention"/>
+      </div>
 
-
-  <button onClick={() => setOpen(true)} className="hover:bg-red-800 w-full text-center py-2 rounded-md transition">
-    Register
-  </button>
-
-  <button  onClick={() => setLoginOpen(true)} className="hover:bg-red-800 w-full text-center py-2 rounded-md transition">
-    Login
-  </button>
-
-  <button
-  onClick={() => setAdminOpen(true)}
-  className="hover:bg-red-800 w-full text-center py-2 rounded-md transition"
->
-  Admin
-</button>
-
-
-</div>
-  {/* Main Content */}
-  
-<div className="flex-1 flex flex-col items-center justify-start text-white text-2xl gap-6 pt-16">
-  <h2 className="text-red-600 text-4xl font-bold mb-4 ">
-    {/* User Page */}
-  </h2>
-
-  <img src={logo} alt="logo" className="w-40 h-40 rounded-full" />
-
-  <h1 className="text-blue-500 text-3xl font-bold">
-    Cylinder Tracking
-  </h1>
-
-  <div className="flex flex-col text-blue-500 text-xl font-semibold text-center max-w-xl">
-    Optimize Cylinder Tracking, Minimize Losses
-
-    <p className="text-base font-normal mt-2">
-      Cylinders are an essential asset of the chemical-based industrial intermediates.
-      Manual tracking of cylinders at every stage can lead to multiple errors like,
-    </p>
-
-   
-  </div>
- {/* Bottom Full Height Left & Right Panels */}
-<div className="flex w flex-1 mt-6 ml-35 gap-8">
-
-  <Card img={cy1} title="Efficient Issue Resolution" />
-  <Card img={cy2} title="Improved Customer Satisfaction" />
-  <Card img={cy3} title="Accurate Compensation Management" />
-  <Card img={cy4} title="Integration for Efficiency" />
-  <Card img={cy5} title="Real-time Tracking" />
-  <Card img={cy6} title="Loss Prevention" />
-
-</div>
-</div>
-
-
-<RegisterModal isOpen={open} onClose={() => setOpen(false)} openLogin={() => setLoginOpen(true)}/>
-<LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} onLoginSuccess={(name) => { setUserName(name); setShowDashboard(true);}}/>
-  <AdminLoginModal 
-  isOpen={adminOpen}
-  onClose={() => setAdminOpen(false)}
-  onAdminSuccess={() => navigate("/admin")}
-/>
-
-
-
-</div>
+      {/* Modals */}
+      <RegisterModal isOpen={open} onClose={() => setOpen(false)} openLogin={() => setLoginOpen(true)}/>
+      <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} onLoginSuccess={(name)=>{setUserName(name);setShowDashboard(true)}}/>
+      <AdminLoginModal isOpen={adminOpen} onClose={() => setAdminOpen(false)} onAdminSuccess={() => navigate("/admin")}/>
+    </div>
   )
 }

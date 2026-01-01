@@ -38,6 +38,7 @@ export const createBooking = async (req,res)=>{
       category: category,
       cylinderId: freeCylinder.cylinderId
     });
+    
 
     // HISTORY #1 — booking created
     await History.create({
@@ -47,7 +48,7 @@ export const createBooking = async (req,res)=>{
       driverName: "Not Assigned",
       action: "Booking Created"
     });
-
+    
     const driver = await Driver.findOne();
 
     if (!driver) {
@@ -62,6 +63,13 @@ export const createBooking = async (req,res)=>{
     });
 
     await Cylinder.findByIdAndUpdate(freeCylinder._id,{status:"Assigned"});
+    // 🔥 SAVE RELATIONS INTO BOOKING
+await Booking.findByIdAndUpdate(booking._id,{
+  deliveryId: delivery._id,
+  driverId: driver._id,
+  cylinderId: freeCylinder.cylinderId
+});
+
 
     // HISTORY #2 — driver assigned
     await History.create({
@@ -132,39 +140,43 @@ export const deleteBooking = async (req,res)=>{
   }
 };
 
-export const getUserTracking = async(req,res)=>{
-  const { email } = req.params;
 
-  const data = await Booking.aggregate([
-    { $match:{ email } },
+export const trackUserOrders = async (req, res) => {
+  try {
+    const email = req.params.email;
 
-    { $lookup:{
-        from:"deliveries",
-        localField:"_id",
-        foreignField:"orderId",
-        as:"delivery"
-    }},
-    { $unwind:"$delivery" },
+    const bookings = await Booking.find({
+  $or: [
+    { email: email },
+    { customerId: email }
+  ]
+}).sort({ createdAt: -1 });
 
-    { $lookup:{
-        from:"drivers",
-        localField:"delivery.driverId",
-        foreignField:"_id",
-        as:"driver"
-    }},
-    { $unwind:"$driver" },
 
-    { $lookup:{
-        from:"cylinders",
-        localField:"delivery.cylinderId",
-        foreignField:"cylinderId",
-        as:"cylinder"
-    }},
-    { $unwind:"$cylinder" }
-  ]);
+    const result = [];
 
-  res.json(data);
+    for (let b of bookings) {
+      const delivery = await Delivery.findOne({ orderId: b._id });
+      const driver = delivery ? await Driver.findById(delivery.driverId) : null;
+      const cylinder = delivery
+        ? await Cylinder.findOne({ cylinderId: delivery.cylinderId })
+        : null;
+
+      result.push({
+        ...b._doc,
+        delivery,
+        driver,
+        cylinder
+      });
+    }
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
+
+
 
 export const completeDelivery = async(req,res)=>{
   const delivery = await Delivery.findById(req.params.id);
