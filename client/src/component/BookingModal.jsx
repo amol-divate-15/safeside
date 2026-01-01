@@ -6,15 +6,13 @@ export default function BookingModal({ close }) {
 
 const [data, setData] = useState({
   type:"",
-  customerId: user?._id || "",
-  name: user?.name || "",
-  address: user?.address || "",
-  phone: user?.phone || "",
-  email: user?.email || "",
+  customerId: user._id,
+  name: user.name,
+  address: user.address,
+  phone: user.phone,
+  email: user.email,   // 🔥 FIXED EMAIL
   price:1000
 });
-
-
 
 
   const handleChange = (e) => {
@@ -52,7 +50,7 @@ const [data, setData] = useState({
         <input name="name" placeholder="Name" onChange={handleChange} className="input"/>
         <input name="address" placeholder="Address" onChange={handleChange} className="input"/>
         <input name="phone" placeholder="Phone" onChange={handleChange} className="input"/>
-        <input name="email" placeholder="Email" onChange={handleChange} className="input"/>
+        
         <input name="price" value={data.price} readOnly className="input"/>
 
         <button onClick={handleBook} className="bg-green-600 text-white w-full py-2 rounded">Book</button>

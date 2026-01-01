@@ -8,9 +8,6 @@ import { completeDelivery } from "../controllers/bookingController.js";
 import { trackUserOrders } from "../controllers/bookingController.js";
 
 
-
-
-
 const router = express.Router();
 router.post("/create", createBooking);
 router.get("/all", getAllBookings);
@@ -18,10 +15,8 @@ router.get("/admin-orders", getAdminOrders);
 router.delete("/delete/:id", deleteBooking);
 // router.get("/track/:", getUserTracking);
 router.put("/complete/:id", completeDelivery);
-router.get("/track/:customerId", trackUserOrders);
 
-
-
+router.get("/track/:email", trackUserOrders);
 
 
 export default router;

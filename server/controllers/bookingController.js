@@ -145,13 +145,7 @@ export const trackUserOrders = async (req, res) => {
   try {
     const email = req.params.email;
 
-    const bookings = await Booking.find({
-  $or: [
-    { email: email },
-    { customerId: email }
-  ]
-}).sort({ createdAt: -1 });
-
+    const bookings = await Booking.find({ email }).sort({ createdAt: -1 });
 
     const result = [];
 
@@ -163,11 +157,16 @@ export const trackUserOrders = async (req, res) => {
         : null;
 
       result.push({
-        ...b._doc,
-        delivery,
-        driver,
-        cylinder
-      });
+  _id: b._id,
+  name: b.name,
+  address: b.address,
+  phone: b.phone,
+  createdAt: b.createdAt,
+  status: delivery?.status || "Pending",
+  driver,
+  cylinder
+});
+
     }
 
     res.json(result);
@@ -175,7 +174,6 @@ export const trackUserOrders = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 
 export const completeDelivery = async(req,res)=>{
@@ -190,5 +188,7 @@ export const completeDelivery = async(req,res)=>{
 
   res.json({message:"Delivery Completed"});
 };
+
+//_________________________________________________________________________
 
 

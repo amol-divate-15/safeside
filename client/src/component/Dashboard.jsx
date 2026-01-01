@@ -18,8 +18,10 @@ export default function Dashboard() {
   const [trackOpen, setTrackOpen] = useState(false);
 
   const handleLogout = () => navigate("/");
-  const userName = location.state?.userName;
-  const email = location.state?.email;
+  const user = JSON.parse(localStorage.getItem("loggedUser"));
+const userName = user?.name;
+const email = user?.email;
+
 
   return (
     <div className="w-screen h-screen bg-gradient-to-br from-gray-50 to-blue-50">
@@ -68,7 +70,9 @@ export default function Dashboard() {
       </div>
 
       {openBooking && <BookingModal close={() => setOpenBooking(false)} />}
-      {trackOpen && <UserTrackingPopup email={email} close={() => setTrackOpen(false)} />}
+{trackOpen && <UserTrackingPopup email={email} close={() => setTrackOpen(false)} />}
+
+
     </div>
   );
 }
