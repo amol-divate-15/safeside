@@ -15,7 +15,6 @@ import DriverPopup from "./DriverPopup";
 import CylinderHistoryPopup from "./CylinderHistoryPopup";
 import DeliveryTimelinePopup from "./DeliveryTimelinePopup";
 import CylinderLiveMap from "./CylinderLiveMap";
-import TrackingPopup from "./TrackingPopup";
 import ReportPopup from "./ReportPopup";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +24,7 @@ export default function AdminHome() {
   const [ordersOpen, setOrdersOpen] = useState(false);
   const [cylinderOpen,setCylinderOpen] = useState(false);
   const [driverOpen,setDriverOpen]=useState(false);
-  const [trackingOpen,setTrackingOpen] = useState(false);
+ 
   const [historyOpen,setHistoryOpen] = useState(false);
   const [timelineOpen,setTimelineOpen] = useState(false);
   const [mapOpen,setMapOpen] = useState(false);
@@ -47,7 +46,7 @@ export default function AdminHome() {
           <NavBtn onClick={()=>setCylinderOpen(true)}>Cylinders</NavBtn>
           <NavBtn onClick={()=>setOrdersOpen(true)}>Orders</NavBtn>
           <NavBtn onClick={()=>setDriverOpen(true)}>Drivers</NavBtn>
-          <NavBtn onClick={()=>setTrackingOpen(true)}>Tracking</NavBtn>
+         <NavBtn onClick={()=>setHistoryOpen(true)}>Tracking</NavBtn>
           <NavBtn onClick={()=>setReportOpen(true)}>Reports</NavBtn>
           <NavBtn onClick={()=>{
             localStorage.removeItem("adminToken");
@@ -80,14 +79,6 @@ export default function AdminHome() {
       {ordersOpen && <AdminOrdersPopup close={() => setOrdersOpen(false)} />}
       {cylinderOpen && <CylinderPopup close={()=>setCylinderOpen(false)} />}
       {driverOpen && <DriverPopup close={()=>setDriverOpen(false)} />}
-      {trackingOpen && (
-        <TrackingPopup
-          close={()=>setTrackingOpen(false)}
-          openHistory={()=>{setTrackingOpen(false); setHistoryOpen(true)}}
-          openTimeline={()=>{setTrackingOpen(false); setTimelineOpen(true)}}
-          openMap={()=>{setTrackingOpen(false); setMapOpen(true)}}
-        />
-      )}
       {historyOpen && <CylinderHistoryPopup close={()=>setHistoryOpen(false)} />}
       {timelineOpen && <DeliveryTimelinePopup close={()=>setTimelineOpen(false)} />}
       {mapOpen && <CylinderLiveMap close={()=>setMapOpen(false)} />}

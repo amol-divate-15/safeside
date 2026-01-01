@@ -1,38 +1,53 @@
 import Cylinder from "../model/cylinderModel.js";
-import Delivery from "../model/deliveryModel.js";
-import History from "../model/cylinderHistoryModel.js";
+import Booking from "../model/bookingModel.js";
 import Driver from "../model/driverModel.js";
+import User from "../model/userModel.js";
 
-// ADMIN REPORT
-export const getReports = async (req,res)=>{
-  const totalCylinders = await Cylinder.countDocuments();
-  const damaged = await Cylinder.countDocuments({status:"Damaged"});
-  const pending = await Delivery.countDocuments({status:"Assigned"});
+export const getReports = async (req, res) => {
+  try {
+    // 🔹 TOTAL COUNTS
+    const totalCylinders = await Cylinder.countDocuments();
+    const totalDrivers = await Driver.countDocuments();
+    const totalUsers = await User.countDocuments();
 
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const deliveredToday = await Delivery.countDocuments({
-    status:"Delivered",
-    deliveredAt: {$gte: today}
-  });
+    // 🔹 CYLINDER STATUS
+    const delivered = await Cylinder.countDocuments({ status: "Delivered" });
+    const pending = await Cylinder.countDocuments({ status: { $ne: "Delivered" } });
+    const damaged = await Cylinder.countDocuments({ status: "Damaged" });
 
-  // Driver Performance
-  const driverPerformance = await Delivery.aggregate([
-    { $match:{ status:"Delivered"} },
-    { $group:{ _id:"$driverName", deliveries:{ $sum:1 }}}
-  ]);
+    // 🔹 CYLINDER BY TYPE
+    const cylinderByType = await Cylinder.aggregate([
+      { $group: { _id: "$gasType", total: { $sum: 1 } } }
+    ]);
 
-  // Customer wise usage
-  const customerUsage = await History.aggregate([
-    { $group:{ _id:"$toOwner", total:{ $sum:1 }}}
-  ]);
+    // 🔹 CUSTOMER USAGE
+    const customerUsage = await Booking.aggregate([
+      { $group: { _id: "$email", total: { $sum: 1 } } }
+    ]);
 
-  res.json({
-    totalCylinders,
-    deliveredToday,
-    pending,
-    damaged,
-    driverPerformance,
-    customerUsage
-  });
+    // 🔹 DRIVER PERFORMANCE
+    const driverPerformance = await Booking.aggregate([
+      {
+        $group: {
+          _id: "$driverName",
+          deliveries: { $sum: 1 }
+        }
+      }
+    ]);
+
+    res.json({
+      totalCylinders,
+      totalDrivers,
+      totalUsers,
+      delivered,
+      pending,
+      damaged,
+      cylinderByType,
+      customerUsage,
+      driverPerformance
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
