@@ -26,7 +26,7 @@ export default function AdminOrdersPopup({ close }) {
         <div className="
           flex justify-between items-center
           px-8 py-5
-          bg-gradient-to-r from-red-600 to-orange-500
+          bg-gradient-to-r from-indigo-600 to-blue-600
           text-white
         ">
           <h2 className="text-2xl font-extrabold tracking-wide">
