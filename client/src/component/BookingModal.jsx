@@ -36,9 +36,13 @@ const [data, setData] = useState({
 
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-xl w-[400px] text-black space-y-3">
-        <select name="type" onChange={handleChange} className="input">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center ">
+      
+      <div className="bg-white p-6 rounded-xl w-[700px] text-black space-y-3 ">
+         <div className="bg-white-100 text-gray-800 py-4 text-center text-xl font-bold">
+          Make Your Booking 👋
+        </div>
+        <select name="type" onChange={handleChange} className="input-modern w-90 h-14 text-lg px-5 ml-40">
   <option value="">Select Gas Type</option>
   <option value="LPG">LPG (Domestic)</option>
   <option value="Oxygen">Oxygen (Medical)</option>
@@ -46,15 +50,15 @@ const [data, setData] = useState({
   <option value="Nitrogen">Nitrogen (Industrial)</option>
   </select><br/>
 
-        <input name="customerId" placeholder="Customer ID" onChange={handleChange} className="input"/>
-        <input name="name" placeholder="Name" onChange={handleChange} className="input"/>
-        <input name="address" placeholder="Address" onChange={handleChange} className="input"/>
-        <input name="phone" placeholder="Phone" onChange={handleChange} className="input"/>
+        <input name="customerId" placeholder="Customer ID" onChange={handleChange} className="input-modern w-90 h-14 text-lg px-5 ml-40"/>
+        <input name="name" placeholder="Name" onChange={handleChange} className="input-modern w-90 h-14 text-lg px-5 ml-40"/>
+        <input name="address" placeholder="Address" onChange={handleChange} className="input-modern w-90 h-14 text-lg px-5 ml-40"/>
+        <input name="phone" placeholder="Phone" onChange={handleChange} className="input-modern w-90 h-14 text-lg px-5 ml-40"/>
         
-        <input name="price" value={data.price} readOnly className="input"/>
+        <input name="price" value={data.price} readOnly className="input-modern w-90 h-14 text-lg px-5 ml-40"/>
 
-        <button onClick={handleBook} className="bg-green-600 text-white w-full py-2 rounded">Book</button>
-        <button onClick={close} className="w-full">Cancel</button>
+        <button onClick={handleBook} className="w-50 ml-60 py-3 text-xl font-bold bg-blue-100 text-gray-800 rounded-xl">Book</button>
+        <button onClick={close} className="w-full ml-3">Cancel</button>
       </div>
     </div>
   );

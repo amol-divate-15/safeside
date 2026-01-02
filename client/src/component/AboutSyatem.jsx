@@ -15,21 +15,29 @@ export default function AboutSystem() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
+    <div className="min-h-screen bg-gradient-to-r from-blue-300 to-blue-900">
 
       {/* TOP NAVBAR */}
-      <nav className="fixed top-0 w-full bg-white shadow-md flex justify-between items-center px-10 py-4 z-50">
+      <nav className="fixed top-0 w-full 
+bg-gradient-to-r from-blue-400/60 to-blue-900/60 
+backdrop-blur-lg 
+border-b border-blue-300/20 
+shadow-lg 
+flex justify-between items-center 
+px-10 py-4 z-50">
         <div className="flex items-center gap-3">
           <img src={logo} className="w-10 h-10 rounded-full"/>
           <span className="text-blue-700 font-bold text-lg">CylinderTrack</span>
         </div>
 
         <div className="flex gap-4">
-          <button className="nav-btn">Home</button>
+          <button onClick={() => navigate("/")} className="nav-btn">
+  Home
+</button>
+
           <button className="nav-btn bg-blue-600 text-white">About</button>
           <button onClick={()=>setOpen(true)} className="nav-btn">Register</button>
           <button onClick={()=>setLoginOpen(true)} className="nav-btn">Login</button>
-          <button onClick={()=>setAdminOpen(true)} className="nav-btn bg-red-600 text-white">Admin</button>
         </div>
       </nav>
 

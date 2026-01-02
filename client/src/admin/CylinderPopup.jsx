@@ -33,7 +33,7 @@ export default function CylinderPopup({ close }) {
       <div className="bg-white w-[1100px] h-[90vh] rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="relative bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center text-xl font-bold">
+        <div className="relative text-gray-800  py-4 text-center text-xl font-bold">
           Cylinder Management
 
           {/* ❌ Close Button */}
@@ -70,7 +70,7 @@ export default function CylinderPopup({ close }) {
 
         <div className="px-6">
           <button onClick={save}
-            className="bg-gradient-to-r from-red-600 to-orange-500 text-white px-10 py-3 rounded-xl hover:scale-[1.03] transition">
+            className="bg-gradient-to-r from-blue-600 to-white-500 text-gray px-10 py-3 rounded-xl hover:scale-[1.03] transition">
             Add Cylinder
           </button>
         </div>

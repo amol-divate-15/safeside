@@ -3,7 +3,6 @@ import logo from "../assets/logo.gif";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 export default function LoginModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
@@ -20,24 +19,15 @@ export default function LoginModal({ isOpen, onClose }) {
     try {
       let res;
 
-      // 1️⃣ Try USER login first
       try {
-        res = await axios.post(
-          "http://localhost:5000/api/user/login",
-          login
-        );
+        res = await axios.post("http://localhost:5000/api/user/login", login);
       } catch {
-        // 2️⃣ If user login fails, try ADMIN login
-        res = await axios.post(
-          "http://localhost:5000/api/admin/login",
-          {
-            username: login.email,
-            password: login.password
-          }
-        );
+        res = await axios.post("http://localhost:5000/api/admin/login", {
+          username: login.email,
+          password: login.password
+        });
       }
 
-      // 3️⃣ Save login info
       localStorage.setItem(
         "loggedUser",
         JSON.stringify(res.data.user || res.data.admin)
@@ -45,10 +35,8 @@ export default function LoginModal({ isOpen, onClose }) {
       localStorage.setItem("role", res.data.role);
 
       alert("Welcome!");
-
       onClose();
 
-      // 4️⃣ Role-based redirect
       if (res.data.role === "admin") {
         navigate("/admin-dashboard");
       } else {
@@ -62,9 +50,18 @@ export default function LoginModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50">
-      <div className="bg-white w-[420px] rounded-3xl shadow-2xl overflow-hidden">
+      {/* ⬇️ added relative */}
+      <div className="relative bg-white w-[720px] rounded-3xl shadow-2xl overflow-hidden">
 
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center text-xl font-bold">
+        {/* ❌ CLOSE BUTTON (ONLY ADDITION) */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-4 text-gray-800 text-2xl font-bold hover:opacity-80"
+        >
+          ✕
+        </button>
+
+        <div className="bg-white-100 text-gray-800 py-4 text-center text-xl font-bold">
           Welcome Back 👋
         </div>
 
@@ -79,20 +76,20 @@ export default function LoginModal({ isOpen, onClose }) {
               name="email"
               placeholder="Email / Admin Username"
               onChange={handleChange}
-              className="input-modern"
+              className="input-modern w-90 h-14 text-lg px-5 ml-40"
               required
             />
-
+              <br/>
             <input
               name="password"
               type="password"
               placeholder="Password"
               onChange={handleChange}
-              className="input-modern"
+              className="input-modern w-90 h-14 text-lg px-5 ml-40"
               required
             />
 
-            <button className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl">
+            <button className="w-50 ml-60 py-3 text-xl font-bold bg-blue-100 text-gray-800 rounded-xl">
               Login
             </button>
           </form>

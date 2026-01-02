@@ -33,15 +33,15 @@ export default function RegisterModal({ isOpen, onClose, openLogin }) {
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50">
 
-      <div className="bg-white w-[420px] rounded-3xl shadow-2xl overflow-hidden animate-fadeIn relative">
+      <div className="bg-white w-[720px] rounded-3xl shadow-2xl overflow-hidden animate-fadeIn relative">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center font-bold text-xl">
+        <div className="bg-white-100 text-gray-800 py-4 text-center text-xl font-bold">
           Create Account
         </div>
 
         {/* Close */}
-        <button onClick={onClose} className="absolute top-3 right-4 text-white text-xl">✕</button>
+        <button onClick={onClose} className="absolute top-3 right-4 text-gray-800 text-xl">✕</button>
 
         <div className="p-6">
 
@@ -54,19 +54,19 @@ export default function RegisterModal({ isOpen, onClose, openLogin }) {
           <form onSubmit={handleSubmit} className="space-y-4">
 
             <input name="name" onChange={handleChange} placeholder="Full Name"
-              className="input-modern"/>
+              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
 
             <input name="email" onChange={handleChange} placeholder="Email"
-              className="input-modern"/>
+              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
 
             <input name="password" onChange={handleChange} placeholder="Password"
-              className="input-modern" type="password"/>
+              className="input-modern w-90 h-14 text-lg px-5 ml-40" type="password"/><br/>
 
             <input name="address" onChange={handleChange} placeholder="Address"
-              className="input-modern"/>
+              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
 
             <button type="submit"
-              className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl font-semibold hover:scale-[1.03] transition">
+              className="w-50 ml-60 py-3 text-xl font-bold bg-blue-100 text-gray-800 rounded-xl">
               Register
             </button>
           </form>

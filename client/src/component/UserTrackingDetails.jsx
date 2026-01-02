@@ -2,7 +2,7 @@ export default function UserTrackingDetails({ close, list }) {
   return (
     <div className="bg-white w-[900px] h-[80vh] rounded-3xl shadow-2xl overflow-y-auto">
 
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white text-xl font-bold p-4 text-center">
+      <div className="bg-white-100 text-gray-800 py-4 text-center text-xl font-bold">
         My Cylinder Tracking
       </div>
 
