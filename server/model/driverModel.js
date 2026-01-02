@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const driverSchema = new mongoose.Schema({
   name: String,
-  vehicleNumber: String,
+  vehicleNo: String,
   phone: String,
 });
 

@@ -23,114 +23,77 @@ export default function Dashboard() {
   const email = user?.email;
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex">
 
-      {/* SIDEBAR (BROAD & RESPONSIVE) */}
-      <div
+      {/* ================= SIDEBAR ================= */}
+      <aside
         className="
-          fixed top-0 left-0 h-screen
-          w-[300px]
-          bg-white
-          shadow-md
+          fixed top-0 left-0 h-screen w-[280px]
+          bg-white/80 backdrop-blur-xl
+          shadow-2xl z-50
           flex flex-col
-          px-8 py-6
-          z-50
         "
       >
-        <div className="flex flex-col items-center text-center gap-3 mb-12">
-  <img src={logo} className="w-12 h-12 rounded-full" />
-  <h2 className="text-xl font-bold text-red-600">
-    Cylinder Tracking
-  </h2>
-</div>
+        {/* Logo Section */}
+        <div className="flex flex-col items-center gap-3 py-8 border-b">
+          <img src={logo} className="w-14 h-14 rounded-full shadow" />
+          <h2 className="text-xl font-extrabold text-red-600 text-center">
+            Cylinder Tracking
+          </h2>
+        </div>
 
-
-        <div className="flex flex-col gap-6 font-semibold text-gray-600">
-          <button className="nav-btn
-    text-center
-    w-full
-    px-10
-    py-5
-    text-xl
-    font-black
-    tracking-wide
-    bg-white/60
-    backdrop-blur-sm
-    transition-all duration-300
-    hover:bg-blue-500/20
-    hover:border-blue-400/30
-    hover:text-blue-800
-    hover:backdrop-blur-md">Home</button>
+        {/* Navigation Buttons */}
+        <div className="p-4 space-y-4 font-semibold">
+          <button
+            className="
+              w-full px-6 py-4 rounded-xl text-lg font-bold
+              bg-blue-50 text-blue-700
+              hover:bg-blue-100 transition
+            "
+          >
+            Home
+          </button>
 
           <button
             onClick={() => setOpenBooking(true)}
-            className="nav-btn
-    text-center
-    w-full
-    px-10
-    py-5
-    text-xl
-    font-black
-    tracking-wide
-    bg-white/60
-    backdrop-blur-sm
-    transition-all duration-300
-    hover:bg-blue-500/20
-    hover:border-blue-400/30
-    hover:text-blue-800
-    hover:backdrop-blur-md"
+            className="
+              w-full px-6 py-4 rounded-xl text-lg font-bold
+              bg-blue-50 text-blue-700
+              hover:bg-blue-100 transition
+            "
           >
             Book Cylinder
           </button>
 
           <button
             onClick={() => setTrackOpen(true)}
-            className="nav-btn
-    text-center
-    w-full
-    px-10
-    py-5
-    text-xl
-    font-black
-    tracking-wide
-    bg-white/60
-    backdrop-blur-sm
-    transition-all duration-300
-    hover:bg-blue-500/20
-    hover:border-blue-400/30
-    hover:text-blue-800
-    hover:backdrop-blur-md"
+            className="
+              w-full px-6 py-4 rounded-xl text-lg font-bold
+              bg-blue-50 text-blue-700
+              hover:bg-blue-100 transition
+            "
           >
             Track Order
           </button>
 
           <button
             onClick={handleLogout}
-            className="nav-btn
-    text-center
-    w-full
-    px-10
-    py-5
-    text-xl
-    font-black
-    tracking-wide
-    bg-white/60
-    backdrop-blur-sm
-    transition-all duration-300
-    hover:bg-blue-500/20
-    hover:border-blue-400/30
-    hover:text-blue-800
-    hover:backdrop-blur-md"
+            className="
+              w-full px-6 py-4 rounded-xl text-lg font-bold
+              bg-red-500 text-white
+              hover:bg-red-600 transition
+            "
           >
             Logout
           </button>
         </div>
-      </div>
+      </aside>
 
-      {/* MAIN CONTENT (SHIFTED FOR SIDEBAR) */}
-      <div className="ml-[300px] pt-10 px-10">
+      {/* ================= MAIN CONTENT ================= */}
+      <main className="ml-[280px] w-full pt-10 px-10">
 
-        <div className="flex flex-col items-center text-center">
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-12">
           <img
             src={logo}
             className="w-32 h-32 rounded-full shadow-lg mb-3"
@@ -147,7 +110,7 @@ export default function Dashboard() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-3 gap-8 mt-12 place-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center">
           <Card img={cy1} title="Efficient Issue Resolution" />
           <Card img={cy2} title="Improved Customer Satisfaction" />
           <Card img={cy3} title="Accurate Compensation Management" />
@@ -155,9 +118,11 @@ export default function Dashboard() {
           <Card img={cy5} title="Real-time Tracking" />
           <Card img={cy6} title="Loss Prevention" />
         </div>
-      </div>
+      </main>
 
+      {/* ================= POPUPS ================= */}
       {openBooking && <BookingModal close={() => setOpenBooking(false)} />}
+
       {trackOpen && (
         <UserTrackingPopup
           email={email}
