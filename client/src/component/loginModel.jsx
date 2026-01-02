@@ -95,11 +95,15 @@ export default function LoginModal({ isOpen, onClose }) {
           </form>
 
           <button
-            onClick={() => navigate("/update-password")}
-            className="text-sm text-center w-full mt-4 text-blue-600 hover:underline"
-          >
-            Forgot Password?
-          </button>
+  onClick={() => {
+    onClose();                 // close login modal
+    navigate("/update-password"); // open update password page
+  }}
+  className="text-sm text-center w-full mt-4 text-blue-600 hover:underline"
+>
+  Forgot Password?
+</button>
+
         </div>
       </div>
     </div>

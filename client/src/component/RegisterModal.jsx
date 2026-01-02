@@ -3,6 +3,7 @@ import logo from "../assets/logo.gif";
 import { useState } from "react";
 import axios from "axios";
 
+
 export default function RegisterModal({ isOpen, onClose, openLogin }) {
   if (!isOpen) return null;
 

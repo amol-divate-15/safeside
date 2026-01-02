@@ -35,7 +35,7 @@ export default function DriverPopup({ close }) {
       <div className="bg-white w-[900px] h-[90vh] rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-xl font-bold p-4 text-center">
+        <div className="bg-blue-100 text-gray text-xl font-bold p-4 text-center">
           Driver Management
         </div>
 
@@ -47,7 +47,7 @@ export default function DriverPopup({ close }) {
             <input value={driver.vehicleNo} onChange={e=>setDriver({...driver,vehicleNo:e.target.value})} placeholder="Vehicle Number" className="modal-input"/>
             <input value={driver.phone} onChange={e=>setDriver({...driver,phone:e.target.value})} placeholder="Phone Number" className="modal-input"/>
 
-            <button onClick={saveDriver} className="col-span-3 bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-semibold">
+            <button onClick={saveDriver} className="col-span-3 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl font-semibold">
               Add Driver
             </button>
           </div>

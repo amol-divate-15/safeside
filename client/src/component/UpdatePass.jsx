@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.gif";
 
 
-export default function UpdatePassword() {
+export default function UpdatePass(isOpen, onClose) {
+  if (!isOpen) return null;
+
   const [data, setData] = useState({ email: "", newPassword: "" });
     const navigate = useNavigate();
 

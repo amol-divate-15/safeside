@@ -29,7 +29,7 @@ export default function AllUsersPopup({ isOpen, onClose }) {
       <div className="bg-white w-[950px] h-[600px] rounded-3xl shadow-2xl overflow-hidden animate-fadeIn">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 text-center text-xl font-bold">
+        <div className="bg-blue-100 text-gray py-4 text-center text-xl font-bold">
           Registered Users
         </div>
 

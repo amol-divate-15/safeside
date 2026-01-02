@@ -13,7 +13,7 @@ export default function CylinderHistoryPopup({ close }) {
       <div className="bg-white w-[95%] max-w-6xl h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white p-5 flex justify-between items-center">
+        <div className="bg-blue-100 text-gray p-5 flex justify-between items-center">
           <h2 className="text-xl font-bold">Cylinder Movement History</h2>
           <button onClick={close} className="text-2xl font-bold hover:scale-110">✕</button>
         </div>

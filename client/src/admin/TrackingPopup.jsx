@@ -4,7 +4,7 @@ export default function TrackingPopup({ close, openHistory, openTimeline, openMa
       <div className="bg-white w-[360px] rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-lg font-bold text-center py-4">
+        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-gray text-lg font-bold text-center py-4">
           Tracking Options
         </div>
 

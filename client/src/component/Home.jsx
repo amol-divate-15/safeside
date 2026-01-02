@@ -11,6 +11,7 @@ import RegisterModal from "./RegisterModal";
 import LoginModal from "./loginModel";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -80,6 +81,43 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-gray-800">
           Cylinder Tracking
         </h1>
+        {/* INFO STRIP */}
+<div className=" mt-8
+  w-screen
+  h-[500px]
+  bg-gradient-to-r from-blue-50 to-indigo-50
+  border-y border-blue-200
+  p-12
+  shadow-lg
+  flex flex-col justify-center items-center text-center
+  transform transition-all duration-500
+  hover:shadow-2xl">
+
+  <h3 className="text-2xl font-bold text-gray-800 mb-3">
+    Smart Cylinder Management System
+  </h3>
+
+  <p className="text-gray-800 text-lg md:text-xl font-semibold leading-relaxed max-w-5xl">
+  Our smart cylinder tracking platform enables complete visibility across the
+  entire cylinder lifecycle — from refilling and storage to dispatch and final
+  delivery. Track LPG, CNG, Oxygen, Nitrogen, and Industrial cylinders in
+  real-time with accurate location updates, usage history, and status
+  monitoring.
+  <br /><br />
+  Reduce operational losses, prevent misplacement, and improve accountability
+  by assigning cylinders to drivers, customers, and locations digitally.
+  Automated tracking, delivery timelines, and transparent records ensure safe,
+  efficient, and timely distribution while improving customer trust and
+  operational efficiency.
+</p>
+
+  <div className="flex justify-center gap-6 mt-4 text-sm font-semibold text-blue-700">
+    <span className="bg-white px-4 py-2 rounded-full shadow">Live Tracking</span>
+    <span className="bg-white px-4 py-2 rounded-full shadow">Driver Assignment</span>
+    <span className="bg-white px-4 py-2 rounded-full shadow">Loss Control</span>
+  </div>
+</div>
+
 
         <p className="max-w-xl mx-auto mt-3 text-gray-800">
           Optimize Cylinder Tracking, Minimize Losses
@@ -111,6 +149,7 @@ export default function Home() {
           setShowDashboard(true);
         }}
       />
+      
     </div>
   );
 }

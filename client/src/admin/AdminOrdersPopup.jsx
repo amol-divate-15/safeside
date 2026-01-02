@@ -14,7 +14,7 @@ export default function AdminOrdersPopup({ close }) {
       <div className="bg-white w-[95%] h-[85vh] rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-xl font-bold p-4 text-center">
+        <div className="bg-white text-gray text-xl font-bold p-4 text-center">
           All Bookings
         </div>
 
