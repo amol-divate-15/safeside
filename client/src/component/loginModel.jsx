@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import logo from "../assets/logo.gif";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UpdatePass from "./UpdatePass";
+
 
 export default function LoginModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const [login, setLogin] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [forgotOpen, setForgotOpen] = useState(false);
+
 
   const handleChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -96,16 +100,21 @@ export default function LoginModal({ isOpen, onClose }) {
 
           <button
   onClick={() => {
-    onClose();                 // close login modal
-    navigate("/update-password"); // open update password page
+    setForgotOpen(true);   // open update password popup
   }}
   className="text-sm text-center w-full mt-4 text-blue-600 hover:underline"
 >
   Forgot Password?
 </button>
 
+
         </div>
       </div>
+      <UpdatePass
+  isOpen={forgotOpen}
+  onClose={() => setForgotOpen(false)}
+/>
+
     </div>
   );
 }
