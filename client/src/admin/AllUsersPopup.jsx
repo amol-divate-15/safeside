@@ -15,7 +15,9 @@ export default function AllUsersPopup({ isOpen, onClose }) {
   };
 
   const deleteUser = async () => {
-    await axios.delete(`http://localhost:5000/api/user/delete/${selected._id}`);
+    await axios.delete(
+      `http://localhost:5000/api/user/delete/${selected._id}`
+    );
     alert("User Deleted");
     setSelected(null);
     fetchUsers();
@@ -24,23 +26,45 @@ export default function AllUsersPopup({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center">
 
-      <div className="bg-white w-[950px] h-[600px] rounded-3xl shadow-2xl overflow-hidden animate-fadeIn">
+      {/* Modal */}
+      <div className="
+        w-[95%] max-w-5xl h-[85vh]
+        bg-white/90 backdrop-blur-xl
+        rounded-3xl shadow-2xl
+        flex flex-col overflow-hidden
+        animate-fadeIn
+      ">
 
         {/* Header */}
-        <div className="bg-blue-100 text-gray py-4 text-center text-xl font-bold">
-          Registered Users
+        <div className="
+          flex justify-between items-center
+          px-8 py-5
+          bg-gradient-to-r from-blue-600 to-indigo-600
+          text-white
+        ">
+          <h2 className="text-2xl font-extrabold tracking-wide">
+            Registered Users
+          </h2>
+
+          <button
+            onClick={onClose}
+            className="text-2xl font-bold hover:scale-110 transition"
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Table */}
-        <div className="overflow-auto h-[420px] p-6">
-          <table className="w-full text-sm border-collapse">
-            <thead className="sticky top-0 bg-red-50 text-red-700">
-              <tr>
-                <th className="p-3 text-left">Name</th>
-                <th className="p-3 text-left">Email</th>
-                <th className="p-3 text-left">Address</th>
+        {/* Table Section */}
+        <div className="flex-1 overflow-auto p-6">
+          <table className="w-full border-collapse text-sm md:text-base">
+
+            <thead className="sticky top-0 bg-blue-50 z-10">
+              <tr className="text-blue-700 font-bold">
+                <th className="p-4 text-left">Name</th>
+                <th className="p-4 text-left">Email</th>
+                <th className="p-4 text-left">Address</th>
               </tr>
             </thead>
 
@@ -49,29 +73,52 @@ export default function AllUsersPopup({ isOpen, onClose }) {
                 <tr
                   key={u._id}
                   onClick={() => setSelected(u)}
-                  className={`cursor-pointer transition 
+                  className={`
+                    cursor-pointer transition-all
                     ${selected?._id === u._id
-                      ? "bg-red-100"
-                      : "hover:bg-red-50"}`}
+                      ? "bg-blue-100"
+                      : "hover:bg-blue-50"}
+                  `}
                 >
-                  <td className="p-3">{u.name}</td>
-                  <td className="p-3">{u.email}</td>
-                  <td className="p-3">{u.address}</td>
+                  <td className="p-4 font-semibold text-gray-800">
+                    {u.name}
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    {u.email}
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    {u.address}
+                  </td>
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
 
-        {/* Delete Panel */}
+        {/* Delete Confirmation */}
         {selected && (
-          <div className="mx-6 mb-4 p-4 rounded-xl bg-red-50 border border-red-200 flex items-center justify-between">
-            <span className="text-red-700 font-semibold">
-              Delete user <b>{selected.name}</b>?
+          <div className="
+            mx-6 mb-4 p-5
+            rounded-2xl
+            bg-red-50 border border-red-200
+            flex flex-col md:flex-row
+            items-center justify-between gap-4
+          ">
+            <span className="text-red-700 text-lg font-bold">
+              Delete user <span className="underline">{selected.name}</span>?
             </span>
+
             <button
               onClick={deleteUser}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl"
+              className="
+                px-8 py-3
+                bg-red-600 text-white
+                font-bold rounded-xl
+                hover:bg-red-700
+                hover:scale-105
+                transition
+              "
             >
               Delete User
             </button>
@@ -79,10 +126,16 @@ export default function AllUsersPopup({ isOpen, onClose }) {
         )}
 
         {/* Footer */}
-        <div className="p-4 text-center border-t">
+        <div className="p-5 border-t text-center bg-gray-50">
           <button
             onClick={onClose}
-            className="bg-gradient-to-r from-red-600 to-orange-500 text-white px-8 py-2 rounded-xl hover:scale-[1.05] transition"
+            className="
+              px-10 py-3
+              rounded-xl
+              font-bold text-white
+              bg-gradient-to-r from-gray-700 to-gray-900
+              hover:scale-105 transition
+            "
           >
             Close
           </button>

@@ -1,27 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.gif";
-import { useState } from "react";
 import axios from "axios";
-
 
 export default function RegisterModal({ isOpen, onClose, openLogin }) {
   if (!isOpen) return null;
 
   const [form, setForm] = useState({
-    name:"",
-    email:"",
-    password:"",
-    address:""
+    name: "",
+    email: "",
+    password: "",
+    address: ""
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res=await axios.post("http://localhost:5000/api/user/register",form);
+      const res = await axios.post(
+        "http://localhost:5000/api/user/register",
+        form
+      );
       alert("Registered Successfully");
       localStorage.setItem("loggedUser", JSON.stringify(res.data.user));
       onClose();
@@ -32,47 +33,138 @@ export default function RegisterModal({ isOpen, onClose, openLogin }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xl flex items-center justify-center">
 
-      <div className="bg-white w-[720px] rounded-3xl shadow-2xl overflow-hidden animate-fadeIn relative">
+      {/* ================= MODAL ================= */}
+      <div className="
+        relative
+        w-full max-w-2xl
+        bg-white/80 backdrop-blur-2xl
+        border border-gray-200/40
+        rounded-3xl
+        shadow-[0_30px_120px_rgba(0,0,0,0.35)]
+        animate-fadeIn
+        overflow-hidden
+      ">
 
-        {/* Header */}
-        <div className="bg-white-100 text-gray-800 py-4 text-center text-xl font-bold">
-          Create Account
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="
+            absolute top-4 right-5
+            text-2xl font-bold text-gray-600
+            hover:text-gray-900 hover:scale-110
+            transition
+          "
+        >
+          ✕
+        </button>
+
+        {/* ================= HEADER ================= */}
+        <div className="
+          py-8 text-center
+          bg-gradient-to-r from-blue-600 to-indigo-700
+          text-white
+        ">
+          <img
+            src={logo}
+            className="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg"
+          />
+          <h2 className="text-2xl font-extrabold tracking-wide">
+            Create Your Account
+          </h2>
+          <p className="text-sm opacity-90 mt-1">
+            Join the Cylinder Tracking Platform
+          </p>
         </div>
 
-        {/* Close */}
-        <button onClick={onClose} className="absolute top-3 right-4 text-gray-800 text-xl">✕</button>
+        {/* ================= FORM ================= */}
+        <div className="px-10 py-10">
+          <form onSubmit={handleSubmit} className="grid gap-6">
 
-        <div className="p-6">
+            <Input
+              name="name"
+              placeholder="Full Name"
+              onChange={handleChange}
+            />
 
-          <div className="flex flex-col items-center mb-6">
-            <img src={logo} className="w-20 h-20 rounded-full shadow mb-2"/>
-            <h2 className="text-blue-700 font-bold">Cylinder Tracking</h2>
-            <p className="text-gray-400 text-sm">Register new user</p>
-          </div>
+            <Input
+              name="email"
+              placeholder="Email Address"
+              onChange={handleChange}
+            />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              onChange={handleChange}
+            />
 
-            <input name="name" onChange={handleChange} placeholder="Full Name"
-              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
+            <Input
+              name="address"
+              placeholder="Address"
+              onChange={handleChange}
+            />
 
-            <input name="email" onChange={handleChange} placeholder="Email"
-              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
-
-            <input name="password" onChange={handleChange} placeholder="Password"
-              className="input-modern w-90 h-14 text-lg px-5 ml-40" type="password"/><br/>
-
-            <input name="address" onChange={handleChange} placeholder="Address"
-              className="input-modern w-90 h-14 text-lg px-5 ml-40"/><br/>
-
-            <button type="submit"
-              className="w-50 ml-60 py-3 text-xl font-bold bg-blue-100 text-gray-800 rounded-xl">
-              Register
+            <button
+              type="submit"
+              className="
+                mt-6
+                w-full py-4
+                text-lg font-extrabold
+                rounded-2xl
+                bg-gradient-to-r from-blue-600 to-indigo-700
+                text-white
+                shadow-lg
+                transition-all duration-300
+                hover:scale-[1.02]
+                hover:shadow-2xl
+              "
+            >
+              Register Account
             </button>
+
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Already have an account?{" "}
+              <span
+                onClick={() => {
+                  onClose();
+                  openLogin();
+                }}
+                className="text-blue-700 font-bold cursor-pointer hover:underline"
+              >
+                Login here
+              </span>
+            </p>
           </form>
         </div>
       </div>
     </div>
+  );
+}
+
+/* ================= INPUT COMPONENT ================= */
+
+function Input({ name, placeholder, type = "text", onChange }) {
+  return (
+    <input
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      onChange={onChange}
+      required
+      className="
+        w-full h-14 px-5
+        rounded-xl
+        text-lg font-semibold
+        bg-white/90
+        border border-gray-300
+        outline-none
+        transition
+        focus:border-blue-500
+        focus:ring-4 focus:ring-blue-200
+      "
+    />
   );
 }

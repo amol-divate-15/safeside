@@ -16,61 +16,131 @@ export default function UpdatePass({ isOpen, onClose }) {
     try {
       await axios.put("http://localhost:5000/api/user/update-password", data);
       alert("Password Updated Successfully");
-      onClose(); // close popup after success
+      onClose();
     } catch (err) {
       alert(err.response?.data?.message || "Update Failed");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50">
-      <div className="relative bg-white w-[600px] rounded-3xl shadow-2xl p-8">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xl flex items-center justify-center">
+
+      {/* ================= MODAL ================= */}
+      <div className="
+        relative
+        w-full max-w-lg
+        bg-white/80 backdrop-blur-2xl
+        border border-gray-200/40
+        rounded-3xl
+        shadow-[0_30px_120px_rgba(0,0,0,0.35)]
+        animate-fadeIn
+        overflow-hidden
+      ">
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-2xl font-bold text-gray-600 hover:opacity-80"
+          className="
+            absolute top-4 right-5
+            text-2xl font-bold text-gray-600
+            hover:text-gray-900 hover:scale-110
+            transition
+          "
         >
           ✕
         </button>
 
-        <h2 className="text-2xl text-blue-600 font-bold text-center mb-6">
-          Update Password
-        </h2>
-
-        <div className="flex flex-col items-center gap-4 mb-6">
-          <img src={logo} alt="logo" className="w-28 h-28 rounded-full" />
-          <h1 className="text-blue-500 text-xl font-bold">
-            Cylinder Tracking
-          </h1>
+        {/* ================= HEADER ================= */}
+        <div className="
+          py-8 text-center
+          bg-gradient-to-r from-blue-600 to-indigo-700
+          text-white
+        ">
+          <img
+            src={logo}
+            alt="logo"
+            className="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg"
+          />
+          <h2 className="text-2xl font-extrabold tracking-wide">
+            Reset Your Password
+          </h2>
+          <p className="text-sm opacity-90 mt-1">
+            Secure your account with a new password
+          </p>
         </div>
 
-        <form onSubmit={handleUpdate} className="flex flex-col items-center gap-4">
-          <input
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            className="input-modern w-full h-12 px-4"
-            required
-          />
+        {/* ================= FORM ================= */}
+        <div className="px-10 py-10">
+          <form onSubmit={handleUpdate} className="grid gap-6">
 
-          <input
-            name="newPassword"
-            type="password"
-            placeholder="New Password"
-            onChange={handleChange}
-            className="input-modern w-full h-12 px-4"
-            required
-          />
+            <Input
+              name="email"
+              placeholder="Registered Email Address"
+              onChange={handleChange}
+            />
 
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-xl"
-          >
-            Update Password
-          </button>
-        </form>
+            <Input
+              name="newPassword"
+              type="password"
+              placeholder="New Password"
+              onChange={handleChange}
+            />
 
+            <button
+              type="submit"
+              className="
+                mt-4
+                w-full py-4
+                text-lg font-extrabold
+                rounded-2xl
+                bg-gradient-to-r from-blue-600 to-indigo-700
+                text-white
+                shadow-lg
+                transition-all duration-300
+                hover:scale-[1.02]
+                hover:shadow-2xl
+              "
+            >
+              Update Password
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Remembered your password?{" "}
+            <span
+              onClick={onClose}
+              className="text-blue-700 font-bold cursor-pointer hover:underline"
+            >
+              Go back to login
+            </span>
+          </p>
+        </div>
       </div>
     </div>
+  );
+}
+
+/* ================= INPUT COMPONENT ================= */
+
+function Input({ name, placeholder, type = "text", onChange }) {
+  return (
+    <input
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      onChange={onChange}
+      required
+      className="
+        w-full h-14 px-5
+        rounded-xl
+        text-lg font-semibold
+        bg-white/90
+        border border-gray-300
+        outline-none
+        transition
+        focus:border-blue-500
+        focus:ring-4 focus:ring-blue-200
+      "
+    />
   );
 }
